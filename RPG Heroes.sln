@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPG Heroes", "RPG Heroes\RPG Heroes.csproj", "{B2A37AB7-C53A-467D-8DB3-F62975CA8A7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2A37AB7-C53A-467D-8DB3-F62975CA8A7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A37AB7-C53A-467D-8DB3-F62975CA8A7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A37AB7-C53A-467D-8DB3-F62975CA8A7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A37AB7-C53A-467D-8DB3-F62975CA8A7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4F25954-CBAF-4C2E-B508-BF7481845B45}
+	EndGlobalSection
+EndGlobal
