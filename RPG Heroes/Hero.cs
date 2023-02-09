@@ -27,6 +27,7 @@ namespace RPG_Heroes
             Name = name;
             Level = 1;
             attackDamage = 1;
+            //since we only have 4 Slot enums equipments dictionary can only hold 4 items
             equipments = new Dictionary<Slot, Item>();
         }
 
