@@ -18,7 +18,7 @@ namespace RPG_Heroes.Items
             this.armorAttributes = armorAttributes;
         }
 
-        //See if the hero trying to equip the item is able to do it or not
+        //Verify if the hero trying to equip the item is able to do it or not
         public override bool Equipped(Hero heroEquipping)
         {
             bool success = false;

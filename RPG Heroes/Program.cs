@@ -31,34 +31,10 @@ for(int i = 0; i < 10; i++)
     mukmuk.LevelUp();
 }
 
-myHero.LevelUp();
-myHero.LevelUp();
-myHero.Equip(staffOfWisdom);
-myHero.Equip(ragRobe);
-myHero.Equip(bananaDagger);
-//myHero.Display();
-
-legolas.Equip(shadowBow);
-//legolas.Display();
-
-mukmuk.Equip(commonAxe);
-
 foreach(Hero hero in heroes)
 {
+    hero.Equip(staffOfWisdom);
+    hero.Equip(wandOfPuberty);
     hero.Display();
     hero.Damage();
 }
-
-myHero.Equip(wandOfPuberty);
-myHero.Equip(silkyRobe);
-myHero.Equip(hood);
-myHero.Equip(pants);
-myHero.Display();
-myHero.Damage();
-
-for(int i = 0; i < 10; i++)
-{
-    myHero.LevelUp();
-}
-myHero.Display();
-myHero.Damage();

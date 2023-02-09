@@ -15,7 +15,7 @@ namespace RPG_Heroes.Classes
             heroAttributes = new HeroAttributes(5, 2, 1);
             this.levelAttributes = new int[] { 3, 2, 1 };
             ValidWeaponsType = new WeaponType[] { WeaponType.Hammer, WeaponType.Axe, WeaponType.Sword };
-            ValidArmorType = new ArmorType[] { ArmorType.Mail, ArmorType.Leather };
+            ValidArmorType = new ArmorType[] { ArmorType.Mail, ArmorType.Plate };
         }
         public override void LevelUp()
         {

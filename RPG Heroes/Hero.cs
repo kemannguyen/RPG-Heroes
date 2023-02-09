@@ -35,21 +35,10 @@ namespace RPG_Heroes
         public abstract void LevelUp();
         public void Equip(Item equipment)
         {
-            if (equipment.slot == Slot.Weapon)
+            //items hold a user verification
+            if (equipment.Equipped(this))
             {
-                if (equipment.Equipped(this))
-                {
-                    Console.WriteLine($"*{Name} equipped ¨{equipment.ItemName}¨");
-                    PutEquipmentIntoInventory(equipment);
-                }
-            }
-            else
-            {
-                if (equipment.Equipped(this))
-                {
-                    Console.WriteLine($"*{Name} equipped ¨{equipment.ItemName}¨");
-                    PutEquipmentIntoInventory(equipment);
-                }
+                PutEquipmentIntoInventory(equipment);
             }
         }
 
@@ -61,7 +50,6 @@ namespace RPG_Heroes
             {
                 InsertItem(Slot.Weapon, item);
             }
-
             else if (item.slot == Slot.Head)
             {
                 InsertItem(Slot.Head, item);
@@ -76,7 +64,7 @@ namespace RPG_Heroes
             }
         }
 
-        //replace items with text if there already is an item
+        //equip the items and show text based on if its replacing an old item or not
         private void InsertItem(Slot itemSlot, Item item)
         {
             if (equipments.ContainsKey(itemSlot))
@@ -86,6 +74,8 @@ namespace RPG_Heroes
             }
             else
             {
+
+                Console.WriteLine($"*{Name} equipped ¨{item.ItemName}¨");
                 equipments[itemSlot] = item;
             }
         }
@@ -96,14 +86,14 @@ namespace RPG_Heroes
         {
             tempAttributes = new HeroAttributes(0, 0, 0);
             double[] tempStats = new double[3];
-            foreach (var (slot,item) in equipments)
+            foreach (var (slot, item) in equipments)
             {
                 if (item != null)
                 {
                     double[] itemStats = item.returnItemStats();
                     if (slot != Slot.Weapon)
                     {
-                        for(int i = 0; i<itemStats.Length; i++)
+                        for (int i = 0; i < itemStats.Length; i++)
                         {
                             tempStats[i] += itemStats[i];
                         }
@@ -122,8 +112,8 @@ namespace RPG_Heroes
         {
             TotalAttributes();
             string[] showItems = new string[4];
-            Slot[] slots= new Slot[]{ Slot.Weapon, Slot.Head, Slot.Body, Slot.Legs};
-            
+            Slot[] slots = new Slot[] { Slot.Weapon, Slot.Head, Slot.Body, Slot.Legs };
+
             //saves the equipment name into the right display string
             for (int i = 0; i < showItems.Length; i++)
             {
@@ -133,7 +123,6 @@ namespace RPG_Heroes
                 }
                 if (showItems[i] == null)
                 {
-                    //place holder to show nothing in the display
                     showItems[i] = "";
                 }
             }

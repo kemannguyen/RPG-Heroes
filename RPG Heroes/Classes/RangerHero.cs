@@ -17,7 +17,7 @@ namespace RPG_Heroes.Classes
             heroAttributes = new HeroAttributes(1, 7, 1);
             this.levelAttributes = new int[] { 1, 5, 1};
             ValidWeaponsType = new WeaponType[] { WeaponType.Bow};
-            ValidArmorType = new ArmorType[] { ArmorType.Mail, ArmorType.Leather };
+            ValidArmorType = new ArmorType[] { ArmorType.Leather, ArmorType.Mail };
         }
 
         //increase level and increase stats depending on the class

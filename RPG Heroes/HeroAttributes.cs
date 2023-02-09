@@ -18,6 +18,7 @@ namespace RPG_Heroes
             this.intelligence = intelligence;
         }
 
+        //making sure the increases aren't decimals
         public void IncreaseStats(int str, int dex, int intelligence)
         {
             strength += str;
