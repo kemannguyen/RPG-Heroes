@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPG_Heroes.CustomExceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,17 +34,13 @@ namespace RPG_Heroes.Items
             }
             if (!success)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine($"{heroEquipping.Name} Couldn't equip |{ItemName}| Error: wrong type");
-                Console.ResetColor();
-                return success;
+                //Console.ForegroundColor= ConsoleColor.DarkRed;
+                throw new InvalidWeaponException($"InvalidWeaponException: {heroEquipping.Name} Couldn't equip |{ItemName}| Error: wrong type");
             }
             if (RequiredLevel > heroEquipping.Level)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine($"{heroEquipping.Name} Couldn't equip |{ItemName}| Error: too low level");
-                Console.ResetColor();
-                success = false;
+                //Console.ForegroundColor = ConsoleColor.DarkRed;
+                throw new InvalidWeaponException($"InvalidWeaponException: {heroEquipping.Name} Couldn't equip |{ItemName}| Error: too low level");
             }
             return success;
         }

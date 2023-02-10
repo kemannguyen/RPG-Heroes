@@ -9,18 +9,17 @@ namespace RPG_Heroes
 {
     public abstract class Hero
     {
-        protected string heroClass { get; set; }
+        public string heroClass { get; protected set; }
         public string Name { get; protected set; }
         public int Level { get; protected set; }
         protected int[] levelAttributes { get; set; }
-        protected Dictionary<Slot, Item> equipments { get; set; }
-        protected HeroAttributes heroAttributes { get; set; }
-        protected HeroAttributes tempAttributes { get; set; }
+        public Dictionary<Slot, Item> equipments { get; protected set; }
+        public HeroAttributes heroAttributes { get; protected set; }
 
         public WeaponType[] ValidWeaponsType { get; protected set; }
         public ArmorType[] ValidArmorType { get; protected set; }
 
-        protected double attackDamage { get; set; }
+        public double attackDamage { get; protected set; }
 
         public Hero(string name)
         {
@@ -35,11 +34,24 @@ namespace RPG_Heroes
         public abstract void LevelUp();
         public void Equip(Item equipment)
         {
-            //items hold a user verification
-            if (equipment.Equipped(this))
-            {
-                PutEquipmentIntoInventory(equipment);
-            }
+            //try
+            //{
+                //items hold a user verification
+                if (equipment.Equipped(this))
+                {
+                    PutEquipmentIntoInventory(equipment);
+                }
+            //}
+            //catch(InvalidWeaponException e) 
+            //{
+            //    Console.WriteLine(e.Message);
+            //    Console.ResetColor();
+            //}
+            //catch(InvalidArmorException e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //    Console.ResetColor();
+            //}
         }
 
         //equip items depending on their slot
@@ -79,12 +91,12 @@ namespace RPG_Heroes
                 equipments[itemSlot] = item;
             }
         }
-        public abstract void Damage();
+        public abstract double Damage();
 
         //use item stats do calculate the new stats in tempAttributes
-        public void TotalAttributes()
+        public HeroAttributes TotalAttributes()
         {
-            tempAttributes = new HeroAttributes(0, 0, 0);
+            var tempAttributes = new HeroAttributes(0, 0, 0);
             double[] tempStats = new double[3];
             foreach (var (slot, item) in equipments)
             {
@@ -104,13 +116,13 @@ namespace RPG_Heroes
                     }
                 }
             }
-            tempAttributes = new HeroAttributes(tempStats[0], tempStats[1], tempStats[2]);
+            return tempAttributes = new HeroAttributes(tempStats[0], tempStats[1], tempStats[2]);
         }
 
         //Print out information about the Hero
-        public void Display()
+        public string Display()
         {
-            TotalAttributes();
+            var tempAttributes = TotalAttributes();
             string[] showItems = new string[4];
             Slot[] slots = new Slot[] { Slot.Weapon, Slot.Head, Slot.Body, Slot.Legs };
 
@@ -127,36 +139,42 @@ namespace RPG_Heroes
                 }
             }
 
+            StringBuilder displayString = new StringBuilder();
             //draw out stats box in console 
-            Console.WriteLine("----------------------------------------");
-            CreateCharacterDisplay($"| Hero: {Name}");
-            CreateCharacterDisplay($"| Class: {heroClass}");
-            CreateCharacterDisplay($"| Level: {Level}");
-            CreateCharacterDisplay("|--------------------------------------");
-            CreateCharacterDisplay($"| Attack: {attackDamage}");
+            displayString.AppendLine("----------------------------------------");
+            displayString.AppendLine(CreateCharacterDisplay($"| Hero: {Name}"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Class: {heroClass}"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Level: {Level}"));
+            displayString.AppendLine(CreateCharacterDisplay("|--------------------------------------"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Attack: {attackDamage}"));
 
-            CreateCharacterDisplay($"|             Stats");
-            CreateCharacterDisplay($"| STR: {heroAttributes.strength + tempAttributes.strength} (+ {tempAttributes.strength})");
-            CreateCharacterDisplay($"| DEX: {heroAttributes.dexterity + tempAttributes.dexterity} (+ {tempAttributes.dexterity})");
-            CreateCharacterDisplay($"| INT: {heroAttributes.intelligence + tempAttributes.intelligence} (+ {tempAttributes.intelligence})");
-            CreateCharacterDisplay($"|                                ");
+            displayString.AppendLine(CreateCharacterDisplay($"|             Stats"));
+            displayString.AppendLine(CreateCharacterDisplay($"| STR: {heroAttributes.strength + tempAttributes.strength} (+ {tempAttributes.strength})"));
+            displayString.AppendLine(CreateCharacterDisplay($"| DEX: {heroAttributes.dexterity + tempAttributes.dexterity} (+ {tempAttributes.dexterity})"));
+            displayString.AppendLine(CreateCharacterDisplay($"| INT: {heroAttributes.intelligence + tempAttributes.intelligence} (+ {tempAttributes.intelligence})"));
+            displayString.AppendLine(CreateCharacterDisplay($"|                                "));
 
-            CreateCharacterDisplay($"|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ");
-            CreateCharacterDisplay($"|           Equipment            ");
-            CreateCharacterDisplay($"| Weapon: {showItems[0]}");
-            CreateCharacterDisplay($"| Head: {showItems[1]}");
-            CreateCharacterDisplay($"| Body: {showItems[2]}");
-            CreateCharacterDisplay($"| Legs: {showItems[3]}");
-            Console.WriteLine("----------------------------------------");
+            displayString.AppendLine(CreateCharacterDisplay($"|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ "));
+            displayString.AppendLine(CreateCharacterDisplay($"|           Equipment            "));
+            displayString.AppendLine(CreateCharacterDisplay($"| Weapon: {showItems[0]}"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Head: {showItems[1]}"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Body: {showItems[2]}"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Legs: {showItems[3]}"));
+            displayString.AppendLine("----------------------------------------");
+
+            Console.WriteLine(displayString);
+
+            return displayString.ToString();
+            
         }
 
         // closes the box correctly
-        private void CreateCharacterDisplay(string input)
+        public string CreateCharacterDisplay(string input)
         {
             int borderWidth = 40;
             int offset = 0;
-            StringBuilder border = new StringBuilder();
-            border.Append(input);
+            StringBuilder resultString = new StringBuilder();
+            resultString.Append(input);
             if (input.Length <= borderWidth)
             {
                 offset = borderWidth - input.Length;
@@ -165,15 +183,16 @@ namespace RPG_Heroes
             {
                 if (i < offset - 1)
                 {
-                    border.Append(" ");
+                    resultString.Append(" ");
                 }
                 else
                 {
-                    border.Append("|");
+                    resultString.Append("|");
                 }
 
             }
-            Console.WriteLine(border);
+
+            return resultString.ToString();
         }
 
     }

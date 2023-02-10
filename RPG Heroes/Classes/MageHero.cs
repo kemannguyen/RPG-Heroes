@@ -27,9 +27,9 @@ namespace RPG_Heroes.Classes
         }
 
         //round the damage calculation
-        public override void Damage()
+        public override double Damage()
         {
-            TotalAttributes();
+            var tempAttributes=TotalAttributes();
             
             double totalAttackDealt = (attackDamage * (1 + (heroAttributes.intelligence + tempAttributes.intelligence) / 100));
             Console.Write(totalAttackDealt + " -> ");
@@ -39,6 +39,7 @@ namespace RPG_Heroes.Classes
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("magic damage!");
             Console.ResetColor();
+            return totalAttackDealt;
         }
 
     }

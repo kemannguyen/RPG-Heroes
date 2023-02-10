@@ -23,9 +23,9 @@ namespace RPG_Heroes.Classes
             heroAttributes.IncreaseStats(levelAttributes[0], levelAttributes[1], levelAttributes[2]);
         }
 
-        public override void Damage()
+        public override double Damage()
         {
-            TotalAttributes();
+            var tempAttributes = TotalAttributes();
 
             double totalAttackDealt = (attackDamage * (1 + (heroAttributes.dexterity + tempAttributes.dexterity) / 100));
             Console.Write(totalAttackDealt + " -> ");
@@ -35,6 +35,7 @@ namespace RPG_Heroes.Classes
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("slash damage!");
             Console.ResetColor();
+            return totalAttackDealt;
         }
     }
 }

@@ -28,6 +28,7 @@ heroes.Add(mukmuk);
 heroes.Add(thief);
 
 
+                Console.ResetColor();
 //does level up increase their stats correclty
 Console.WriteLine("Level Up test");
 foreach (Hero hero in heroes)
