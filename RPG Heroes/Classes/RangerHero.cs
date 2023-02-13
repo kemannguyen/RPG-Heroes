@@ -15,7 +15,7 @@ namespace RPG_Heroes.Classes
         {
             heroClass = "Ranger";
             heroAttributes = new HeroAttributes(1, 7, 1);
-            this.levelAttributes = new int[] { 1, 5, 1};
+            levelAttributes = new int[] { 1, 5, 1};
             ValidWeaponsType = new WeaponType[] { WeaponType.Bow};
             ValidArmorType = new ArmorType[] { ArmorType.Leather, ArmorType.Mail };
         }
@@ -37,7 +37,7 @@ namespace RPG_Heroes.Classes
             Console.WriteLine(totalAttackDealt);
             Console.Write($"*{Name} dealt {totalAttackDealt} ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("piercing damage!");
+            Console.WriteLine("piercing damage!\n");
             Console.ResetColor();
             return totalAttackDealt;
         }

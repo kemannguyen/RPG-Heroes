@@ -33,7 +33,7 @@ namespace RPG_Heroes.Classes
             Console.WriteLine(totalAttackDealt);
             Console.Write($"*{Name} dealt {totalAttackDealt} ");
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("slash damage!");
+            Console.WriteLine("slash damage!\n");
             Console.ResetColor();
             return totalAttackDealt;
         }

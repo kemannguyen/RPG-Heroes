@@ -11,7 +11,7 @@ namespace RPG_Heroes.Items
     public class Weapon : Item
     {
 
-        private WeaponType weaponType;
+        public WeaponType weaponType { get; private set; }
         private int weaponDamage;
 
         public Weapon(string itemName, int requiredLevel, int weaponDamage, WeaponType weaponType) : base(itemName, requiredLevel)

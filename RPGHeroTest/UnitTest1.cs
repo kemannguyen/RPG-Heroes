@@ -10,15 +10,105 @@ namespace RPGHeroTest
 {
     public class UnitTest1
     {
+        //Weapon
+        [Fact]
+        public void WeaponCreation_WeaponName_ShouldReturnSameName()
+        {
+            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
+            Assert.Equal("staff", staff.ItemName);
+        }
+        [Fact]
+        public void WeaponCreation_WeaponRequiredLevel_ShouldReturnSameLevel()
+        {
+            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
+            Assert.Equal(1, staff.RequiredLevel);
+        }
+        [Fact]
+        public void WeaponCreation_WeaponDamage_ShouldReturnSameDamage()
+        {
+            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
+            Assert.Equal(10, staff.returnItemStats()[0]);
+        }
+        [Fact]
+        public void WeaponCreation_WeaponSlot_ShouldReturnWeaponSlot()
+        {
+            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
+            Assert.Equal(Slot.Weapon, staff.slot);
+        }
+        [Fact]
+        public void WeaponCreation_WeaponType_ShouldReturnSameType()
+        {
+            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
+            Assert.Equal(WeaponType.Staff, staff.weaponType);
+        }
+
+        //Armor
+        [Fact]
+        public void ArmorCreation_WeaponName_ShouldReturnSameName()
+        {
+            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            Assert.Equal("plate", plate.ItemName);
+        }
+        [Fact]
+        public void ArmorCreation_ArmorRequiredLevel_ShouldReturnSameLevel()
+        {
+            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            Assert.Equal(1, plate.RequiredLevel);
+        }
+        [Fact]
+        public void ArmorCreation_ArmorSlot_ShouldReturnSameSlot()
+        {
+            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            Assert.Equal(Slot.Body, plate.slot);
+        }
+        [Fact]
+        public void ArmorCreation_ArmorType_ShouldReturnSameType()
+        {
+            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            Assert.Equal(ArmorType.Plate, plate.armorType);
+        }
+        [Fact]
+        public void ArmorCreation_ArmorStats_ShouldReturnSameStats()
+        {
+            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            var expectedStats = new double[] { 1, 1, 1 };
+            var actualStats = new double[] { plate.returnItemStats()[0], plate.returnItemStats()[1], plate.returnItemStats()[2] };
+            Assert.Equal(expectedStats, actualStats);
+        }
+
+        //Hero Creation
         [Fact]
         public void HeroAssign_ShouldReturnName()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
-            Assert.True(hero.Name == "Wizard of Oz");
+            Assert.Equal("Wizard of Oz", hero.Name);
         }
         [Fact]
-        public void HeroLevelUp_ShouldBeLevelTwo()
+        public void HeroAssign_ShouldReturnClass()
+        {
+            MageHero mage = new MageHero("Wizard of Oz");
+            Hero hero = mage;
+            Assert.Equal("Mage", hero.heroClass);
+        }
+        [Fact]
+        public void HeroAssign_ShouldReturnLevelOne()
+        {
+            MageHero mage = new MageHero("Wizard of Oz");
+            Hero hero = mage;
+            Assert.Equal(1, hero.Level);
+        }
+        [Fact]
+        public void HeroAssign_Items_ShouldHaveNoEquipment()
+        {
+            MageHero mage = new MageHero("Wizard of Oz");
+            Hero hero = mage;
+            Assert.Empty(hero.equipments);
+        }
+
+        //Hero Level Up
+        [Fact]
+        public void HeroLevelUp_ShouldBeLevelTwoWithCorrectStats()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
@@ -29,8 +119,10 @@ namespace RPGHeroTest
                 expectedStats.dexterity == hero.heroAttributes.dexterity &&
                 expectedStats.intelligence == hero.heroAttributes.intelligence);
         }
+
+        //Hero equip
         [Fact]
-        public void HeroEquip_EquipValidWeapom_ShouldBeHoldingWeaponInsideHero()
+        public void HeroEquip_EquipValidWeapon_ShouldBeHoldingWeaponInsideHero()
         {
             MageHero mage = new MageHero("Gandalf");
             Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
@@ -87,33 +179,145 @@ namespace RPGHeroTest
 
             Assert.Throws<InvalidArmorException>(() => hero.Equip(robe));
         }
-
         [Fact]
-        public void HeroDamage_ShouldReturnDamagedBasedOnStatedEquation()
+        public void HeroEquip_ReplaceItem_ShouldReturnNewItem()
         {
-            var mage = new MageHero("Solomon");
-            var staff = new Weapon("staff", 1, 10, WeaponType.Staff);
+            MageHero mage = new MageHero("Dumbeldore");
+            Armor robe = new Armor("robe", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1));
+            Armor newRobe = new Armor("new Robe", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1));
+            MageHero hero = mage;
+            hero.Equip(robe);
+            hero.Equip(newRobe);
+
+            Assert.Equal(newRobe, hero.equipments[Slot.Body]);
+        }
+
+        //Stats
+        [Fact]
+        public void HeroStats_NoArmorEquipped_ShouldHaveBaseStats()
+        {
+            MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
-            hero.Equip(staff);
+            HeroAttributes expectedStats = new HeroAttributes(1, 1, 8);
+            Assert.True(
+                  expectedStats.strength == hero.heroAttributes.strength &&
+                  expectedStats.dexterity == hero.heroAttributes.dexterity &&
+                  expectedStats.intelligence == hero.heroAttributes.intelligence);
+        }
+        [Fact]
+        public void HeroStats_OneArmorEquipped_ShouldReturnCorrectStats()
+        {
+            var mage = new MageHero("Wizard of Oz");
+            var clothRobe = new Armor("Pay To Win Cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 10));
+            Hero hero = mage;
+            hero.Equip(clothRobe);
+            HeroAttributes expectedStats = new HeroAttributes(
+                1 + clothRobe.returnItemStats()[0],
+                1 + clothRobe.returnItemStats()[1],
+                8 + clothRobe.returnItemStats()[2]);
+
+            var tempAttributes = hero.TotalAttributes();
+
+            Assert.True(
+                  expectedStats.strength == hero.heroAttributes.strength + tempAttributes.strength &&
+                  expectedStats.dexterity == hero.heroAttributes.dexterity + tempAttributes.dexterity &&
+                  expectedStats.intelligence == hero.heroAttributes.intelligence + tempAttributes.intelligence);
+        }
+        [Fact]
+        public void HeroStats_TwoArmorEquipped_ShouldReturnCorrectStats()
+        {
+            var mage = new MageHero("Wizard of Oz");
+            var clothRobe = new Armor("Pay To Win Cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 10));
+            var hat = new Armor("hat", 1, Slot.Head, ArmorType.Cloth, new HeroAttributes(1, 1, 5));
+
+            Hero hero = mage;
+            hero.Equip(clothRobe);
+            hero.Equip(hat);
+
+            HeroAttributes expectedStats = new HeroAttributes(
+                1 + clothRobe.returnItemStats()[0] + hat.returnItemStats()[0],
+                1 + clothRobe.returnItemStats()[1] + hat.returnItemStats()[1],
+                8 + clothRobe.returnItemStats()[2] + hat.returnItemStats()[2]);
+
+            var tempAttributes = hero.TotalAttributes();
+
+            Assert.True(
+                  expectedStats.strength == hero.heroAttributes.strength + tempAttributes.strength &&
+                  expectedStats.dexterity == hero.heroAttributes.dexterity + tempAttributes.dexterity &&
+                  expectedStats.intelligence == hero.heroAttributes.intelligence + tempAttributes.intelligence);
+        }
+        [Fact]
+        public void HeroStats_OneReplacedArmorEquipped_ShouldReturnCorrectStats()
+        {
+            var mage = new MageHero("Wizard of Oz");
+            var clothRobe = new Armor("First cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 10));
+            var newClothRobe = new Armor("Second cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1));
+            Hero hero = mage;
+            hero.Equip(clothRobe);
+            hero.Equip(newClothRobe);
+            HeroAttributes expectedStats = new HeroAttributes(
+                1 + newClothRobe.returnItemStats()[0],
+                1 + newClothRobe.returnItemStats()[1],
+                8 + newClothRobe.returnItemStats()[2]);
+
+            var tempAttributes = hero.TotalAttributes();
+
+            Assert.True(
+                  expectedStats.strength == hero.heroAttributes.strength + tempAttributes.strength &&
+                  expectedStats.dexterity == hero.heroAttributes.dexterity + tempAttributes.dexterity &&
+                  expectedStats.intelligence == hero.heroAttributes.intelligence + tempAttributes.intelligence);
+        }
+
+        //Damage
+        [Fact]
+        public void HeroDamage_NoWeaponEquipped_ShouldReturnCorrectDamage()
+        {
+            var testMage = new MageHero("Keman");
+            var hero = testMage;
             var tempAttributes = hero.TotalAttributes();
             double expectedDMG = Math.Round(hero.attackDamage * (1 + (hero.heroAttributes.intelligence + tempAttributes.intelligence) / 100));
-            Assert.Equal(hero.Damage(), expectedDMG);
+            Assert.Equal(expectedDMG, hero.Damage());
         }
-
         [Fact]
-        public void HeroTotalAttributes_SumOfHeroStatAndItemStat_ShouldReturnHeroTotalStats()
+        public void HeroDamage_EquipOnlyWeapon_ShouldReturnCorrectDamage()
         {
-            MageHero mage = new MageHero("Dr strange");
-            Armor smartWatch = new Armor("smart watch", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(0, 0, 10));
-            MageHero hero = mage;
-            hero.Equip(smartWatch);
+            var testMage = new MageHero("Keman");
+            var hero = testMage;
+            var overPoweredStaff = new Weapon("Pay To Win Staff", 1, 100, WeaponType.Staff);
+            hero.Equip(overPoweredStaff);
             var tempAttributes = hero.TotalAttributes();
-            HeroAttributes expectedStats = new HeroAttributes(1, 1, 18);
-            HeroAttributes heroTotalStats = new HeroAttributes(hero.heroAttributes.strength + tempAttributes.strength, hero.heroAttributes.dexterity + tempAttributes.dexterity, hero.heroAttributes.intelligence + tempAttributes.intelligence);
-            Assert.True(heroTotalStats.strength == expectedStats.strength && heroTotalStats.dexterity == expectedStats.dexterity && heroTotalStats.intelligence == expectedStats.intelligence);
+            double expectedDMG = Math.Round(hero.attackDamage * (1 + (hero.heroAttributes.intelligence + tempAttributes.intelligence) / 100));
+            Assert.Equal(expectedDMG, hero.Damage());
+        }
+        [Fact]
+        public void HeroDamage_EquipOnlyReplacedWeapon_ShouldReturnCorrectDamage()
+        {
+            var testMage = new MageHero("Keman");
+            var hero = testMage;
+            var overPoweredStaff = new Weapon("Pay To Win Staff", 1, 100, WeaponType.Staff);
+            var newWeakStaff = new Weapon("new Free To play Staff", 1, 1, WeaponType.Staff);
+            hero.Equip(overPoweredStaff);
+            hero.Equip(newWeakStaff);
+            var tempAttributes = hero.TotalAttributes();
+            double expectedDMG = Math.Round(hero.attackDamage * (1 + (hero.heroAttributes.intelligence + tempAttributes.intelligence) / 100));
+            Assert.Equal(expectedDMG, hero.Damage());
+        }
+        [Fact]
+        public void HeroDamage_EquipArmorAndWeapon_ShouldReturnCorrectDamage()
+        {
+            var testMage = new MageHero("Keman");
+            var hero = testMage;
+            var overPoweredStaff = new Weapon("Pay To Win Staff", 1, 100, WeaponType.Staff);
+            var overPoweredArmor = new Armor("Pay To Win Cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1000));
+            hero.Equip(overPoweredStaff);
+            hero.Equip(overPoweredArmor);
+            var tempAttributes = hero.TotalAttributes();
+            double expectedDMG = Math.Round(hero.attackDamage * (1 + (hero.heroAttributes.intelligence + tempAttributes.intelligence) / 100));
+            Assert.Equal(expectedDMG, hero.Damage());
         }
 
         [Fact]
+        //Fancy display creation
         public void DisplayTest()
         {
             MageHero testMage = new MageHero("Keman");
@@ -159,7 +363,9 @@ namespace RPGHeroTest
             displayString.AppendLine("----------------------------------------");
             string expectedString = displayString.ToString();
             string heroDisplay = hero.Display();
-            Assert.True(heroDisplay == expectedString);
+
+            Assert.Equal(heroDisplay, expectedString);
         }
+
     }
 }

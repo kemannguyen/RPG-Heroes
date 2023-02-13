@@ -93,7 +93,7 @@ namespace RPG_Heroes
         }
         public abstract double Damage();
 
-        //use item stats do calculate the new stats in tempAttributes
+        //use item stats do calculate the new stats in tempAttributes and attackDmg
         public HeroAttributes TotalAttributes()
         {
             var tempAttributes = new HeroAttributes(0, 0, 0);
@@ -148,14 +148,14 @@ namespace RPG_Heroes
             displayString.AppendLine(CreateCharacterDisplay("|--------------------------------------"));
             displayString.AppendLine(CreateCharacterDisplay($"| Attack: {attackDamage}"));
 
-            displayString.AppendLine(CreateCharacterDisplay($"|             Stats"));
+            displayString.AppendLine(CreateCharacterDisplay($"|                Stats"));
             displayString.AppendLine(CreateCharacterDisplay($"| STR: {heroAttributes.strength + tempAttributes.strength} (+ {tempAttributes.strength})"));
             displayString.AppendLine(CreateCharacterDisplay($"| DEX: {heroAttributes.dexterity + tempAttributes.dexterity} (+ {tempAttributes.dexterity})"));
             displayString.AppendLine(CreateCharacterDisplay($"| INT: {heroAttributes.intelligence + tempAttributes.intelligence} (+ {tempAttributes.intelligence})"));
-            displayString.AppendLine(CreateCharacterDisplay($"|                                "));
+            displayString.AppendLine(CreateCharacterDisplay($"|  "));
 
             displayString.AppendLine(CreateCharacterDisplay($"|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ "));
-            displayString.AppendLine(CreateCharacterDisplay($"|           Equipment            "));
+            displayString.AppendLine(CreateCharacterDisplay($"|              Equipment"));
             displayString.AppendLine(CreateCharacterDisplay($"| Weapon: {showItems[0]}"));
             displayString.AppendLine(CreateCharacterDisplay($"| Head: {showItems[1]}"));
             displayString.AppendLine(CreateCharacterDisplay($"| Body: {showItems[2]}"));

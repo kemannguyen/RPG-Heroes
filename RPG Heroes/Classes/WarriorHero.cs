@@ -11,9 +11,9 @@ namespace RPG_Heroes.Classes
     {
         public WarriorHero(string name) : base(name)
         {
-            heroClass = "¨Warrior";
+            heroClass = "Warrior";
             heroAttributes = new HeroAttributes(5, 2, 1);
-            this.levelAttributes = new int[] { 3, 2, 1 };
+            levelAttributes = new int[] { 3, 2, 1 };
             ValidWeaponsType = new WeaponType[] { WeaponType.Hammer, WeaponType.Axe, WeaponType.Sword };
             ValidArmorType = new ArmorType[] { ArmorType.Mail, ArmorType.Plate };
         }
@@ -32,7 +32,7 @@ namespace RPG_Heroes.Classes
             Console.WriteLine(totalAttackDealt);
             Console.Write($"*{Name} dealt {totalAttackDealt} ");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("physical damage!");
+            Console.WriteLine("physical damage!\n");
             Console.ResetColor();
             return totalAttackDealt;
         }

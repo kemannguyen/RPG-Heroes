@@ -37,7 +37,7 @@ namespace RPG_Heroes.Classes
             Console.WriteLine(totalAttackDealt);
             Console.Write($"*{Name} dealt {totalAttackDealt} ");
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("magic damage!");
+            Console.WriteLine("magic damage!\n");
             Console.ResetColor();
             return totalAttackDealt;
         }

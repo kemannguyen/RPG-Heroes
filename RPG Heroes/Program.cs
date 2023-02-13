@@ -28,32 +28,37 @@ heroes.Add(mukmuk);
 heroes.Add(thief);
 
 
-                Console.ResetColor();
-//does level up increase their stats correclty
-Console.WriteLine("Level Up test");
-foreach (Hero hero in heroes)
-{
-    hero.Display();
-    hero.LevelUp();
-    hero.Display();
-}
-
-//test can Heroes equip items correctly
-Console.WriteLine("\nItem equip test");
-foreach (Hero hero in heroes)
-{
-    hero.Equip(staffOfWisdom);
-    hero.Equip(wandOfPuberty);
-}
-
-//does items and armor affect dmg
-
-Console.WriteLine("\nDamage test");
 foreach(Hero hero in heroes)
 {
-    hero.Damage();
-    hero.Equip(commonAxe);
-    hero.Damage();
-    hero.Equip(commonMail);
-    hero.Damage();
+    if(hero.heroClass == "Mage")
+    {
+        hero.Equip(silkyRobe);
+        hero.Equip(ragRobe);
+        hero.Equip(hood);
+        hero.Display();
+        hero.Damage();
+    }
+    else if (hero.heroClass == "Ranger")
+    {
+        hero.Equip(commonMail);
+        hero.LevelUp();
+        hero.Equip(shadowBow);
+        hero.Display();
+        hero.Damage();
+    }
+    else if (hero.heroClass == "Rogue")
+    {
+        hero.LevelUp();
+        hero.Equip(commonMail);
+        hero.Equip(bananaDagger);
+        hero.Display();
+        hero.Damage();
+    }
+    else if (hero.heroClass == "Warrior")
+    {
+        hero.Equip(commonMail);
+        hero.Equip(commonAxe);
+        hero.Display();
+        hero.Damage();
+    }
 }
