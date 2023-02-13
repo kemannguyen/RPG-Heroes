@@ -1,4 +1,4 @@
-using RPG_Heroes;
+﻿using RPG_Heroes;
 using RPG_Heroes.Classes;
 using RPG_Heroes.CustomExceptions;
 using RPG_Heroes.Items;
@@ -8,77 +8,11 @@ using System.Xml.Linq;
 
 namespace RPGHeroTest
 {
-    public class UnitTest1
+    public class HeroUnitTest
     {
-        //Weapon
-        [Fact]
-        public void WeaponCreation_WeaponName_ShouldReturnSameName()
-        {
-            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
-            Assert.Equal("staff", staff.ItemName);
-        }
-        [Fact]
-        public void WeaponCreation_WeaponRequiredLevel_ShouldReturnSameLevel()
-        {
-            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
-            Assert.Equal(1, staff.RequiredLevel);
-        }
-        [Fact]
-        public void WeaponCreation_WeaponDamage_ShouldReturnSameDamage()
-        {
-            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
-            Assert.Equal(10, staff.returnItemStats()[0]);
-        }
-        [Fact]
-        public void WeaponCreation_WeaponSlot_ShouldReturnWeaponSlot()
-        {
-            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
-            Assert.Equal(Slot.Weapon, staff.slot);
-        }
-        [Fact]
-        public void WeaponCreation_WeaponType_ShouldReturnSameType()
-        {
-            Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
-            Assert.Equal(WeaponType.Staff, staff.weaponType);
-        }
-
-        //Armor
-        [Fact]
-        public void ArmorCreation_WeaponName_ShouldReturnSameName()
-        {
-            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
-            Assert.Equal("plate", plate.ItemName);
-        }
-        [Fact]
-        public void ArmorCreation_ArmorRequiredLevel_ShouldReturnSameLevel()
-        {
-            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
-            Assert.Equal(1, plate.RequiredLevel);
-        }
-        [Fact]
-        public void ArmorCreation_ArmorSlot_ShouldReturnSameSlot()
-        {
-            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
-            Assert.Equal(Slot.Body, plate.slot);
-        }
-        [Fact]
-        public void ArmorCreation_ArmorType_ShouldReturnSameType()
-        {
-            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
-            Assert.Equal(ArmorType.Plate, plate.armorType);
-        }
-        [Fact]
-        public void ArmorCreation_ArmorStats_ShouldReturnSameStats()
-        {
-            Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
-            var expectedStats = new double[] { 1, 1, 1 };
-            var actualStats = new double[] { plate.returnItemStats()[0], plate.returnItemStats()[1], plate.returnItemStats()[2] };
-            Assert.Equal(expectedStats, actualStats);
-        }
-
         //Hero Creation
         [Fact]
-        public void HeroAssign_ShouldReturnName()
+        public void Hero_NameAfterCreation_ShouldReturnName()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
@@ -92,14 +26,14 @@ namespace RPGHeroTest
             Assert.Equal("Mage", hero.heroClass);
         }
         [Fact]
-        public void HeroAssign_ShouldReturnLevelOne()
+        public void Hero_LevelWhenCreated_ShouldReturnLevelOne()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
             Assert.Equal(1, hero.Level);
         }
         [Fact]
-        public void HeroAssign_Items_ShouldHaveNoEquipment()
+        public void Hero_NoItemsWhenCreated_ShouldHaveNoEquipment()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
@@ -108,7 +42,7 @@ namespace RPGHeroTest
 
         //Hero Level Up
         [Fact]
-        public void HeroLevelUp_ShouldBeLevelTwoWithCorrectStats()
+        public void Hero_LevelUp_ShouldBeLevelTwoWithCorrectStats()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
@@ -122,7 +56,7 @@ namespace RPGHeroTest
 
         //Hero equip
         [Fact]
-        public void HeroEquip_EquipValidWeapon_ShouldBeHoldingWeaponInsideHero()
+        public void Hero_EquipValidWeapon_ShouldBeHoldingWeaponInsideHero()
         {
             MageHero mage = new MageHero("Gandalf");
             Weapon staff = new Weapon("staff", 1, 10, WeaponType.Staff);
@@ -132,7 +66,7 @@ namespace RPGHeroTest
         }
 
         [Fact]
-        public void HeroEquip_EquipInvalidWeapon_ShouldReturnError()
+        public void Hero_EquipInvalidWeapon_ShouldReturnInvalidWeaponException()
         {
             MageHero mage = new MageHero("Harry Potter");
             Weapon dagger = new Weapon("dagger", 1, 10, WeaponType.Dagger);
@@ -142,7 +76,7 @@ namespace RPGHeroTest
         }
 
         [Fact]
-        public void HeroEquip_EquipTooHighLevelWeapon_ShouldReturnError()
+        public void Hero_EquipTooHighLevelWeapon_ShouldReturnInvalidWeaponException()
         {
             MageHero mage = new MageHero("Dumbeldore");
             Weapon stick = new Weapon("stick", 10, 10, WeaponType.Staff);
@@ -151,7 +85,7 @@ namespace RPGHeroTest
             Assert.Throws<InvalidWeaponException>(() => hero.Equip(stick));
         }
         [Fact]
-        public void HeroEquip_EquipValidArmor_ShouldBeHoldingItemInsideHero()
+        public void Hero_EquipValidArmor_ShouldBeHoldingItemInsideHero()
         {
             MageHero mage = new MageHero("Gandalf");
             Armor robe = new Armor("robe", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1));
@@ -161,7 +95,7 @@ namespace RPGHeroTest
         }
 
         [Fact]
-        public void HeroEquip_EquipInvalidArmor_ShouldReturnError()
+        public void Hero_EquipInvalidArmor_ShouldReturnError()
         {
             MageHero mage = new MageHero("Harry Potter");
             Armor plate = new Armor("plate", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
@@ -171,7 +105,7 @@ namespace RPGHeroTest
         }
 
         [Fact]
-        public void HeroEquip_EquipTooHighLevelArmor_ShouldReturnError()
+        public void Hero_EquipTooHighLevelArmor_ShouldReturnError()
         {
             MageHero mage = new MageHero("Dumbeldore");
             Armor robe = new Armor("robe", 10, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1));
@@ -180,7 +114,7 @@ namespace RPGHeroTest
             Assert.Throws<InvalidArmorException>(() => hero.Equip(robe));
         }
         [Fact]
-        public void HeroEquip_ReplaceItem_ShouldReturnNewItem()
+        public void Hero_ReplaceEquippedItem_ShouldReturnNewItem()
         {
             MageHero mage = new MageHero("Dumbeldore");
             Armor robe = new Armor("robe", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 1));
@@ -194,7 +128,7 @@ namespace RPGHeroTest
 
         //Stats
         [Fact]
-        public void HeroStats_NoArmorEquipped_ShouldHaveBaseStats()
+        public void Hero_StatsWhenNoArmorEquipped_ShouldHaveBaseStats()
         {
             MageHero mage = new MageHero("Wizard of Oz");
             Hero hero = mage;
@@ -205,7 +139,7 @@ namespace RPGHeroTest
                   expectedStats.intelligence == hero.heroAttributes.intelligence);
         }
         [Fact]
-        public void HeroStats_OneArmorEquipped_ShouldReturnCorrectStats()
+        public void Hero_StatsWhenOneArmorEquipped_ShouldReturnCorrectStats()
         {
             var mage = new MageHero("Wizard of Oz");
             var clothRobe = new Armor("Pay To Win Cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 10));
@@ -224,7 +158,7 @@ namespace RPGHeroTest
                   expectedStats.intelligence == hero.heroAttributes.intelligence + tempAttributes.intelligence);
         }
         [Fact]
-        public void HeroStats_TwoArmorEquipped_ShouldReturnCorrectStats()
+        public void Hero_StatsWhenTwoArmorEquipped_ShouldReturnCorrectStats()
         {
             var mage = new MageHero("Wizard of Oz");
             var clothRobe = new Armor("Pay To Win Cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 10));
@@ -247,7 +181,7 @@ namespace RPGHeroTest
                   expectedStats.intelligence == hero.heroAttributes.intelligence + tempAttributes.intelligence);
         }
         [Fact]
-        public void HeroStats_OneReplacedArmorEquipped_ShouldReturnCorrectStats()
+        public void Hero_StatsWhenOneReplacedArmorEquipped_ShouldReturnCorrectStats()
         {
             var mage = new MageHero("Wizard of Oz");
             var clothRobe = new Armor("First cloth", 1, Slot.Body, ArmorType.Cloth, new HeroAttributes(1, 1, 10));
@@ -270,7 +204,7 @@ namespace RPGHeroTest
 
         //Damage
         [Fact]
-        public void HeroDamage_NoWeaponEquipped_ShouldReturnCorrectDamage()
+        public void Hero_DamageWhenNoWeaponEquipped_ShouldReturnCorrectDamage()
         {
             var testMage = new MageHero("Keman");
             var hero = testMage;
@@ -279,7 +213,7 @@ namespace RPGHeroTest
             Assert.Equal(expectedDMG, hero.Damage());
         }
         [Fact]
-        public void HeroDamage_EquipOnlyWeapon_ShouldReturnCorrectDamage()
+        public void Hero_DamageWhenEquippedOnlyWeapon_ShouldReturnCorrectDamage()
         {
             var testMage = new MageHero("Keman");
             var hero = testMage;
@@ -290,7 +224,7 @@ namespace RPGHeroTest
             Assert.Equal(expectedDMG, hero.Damage());
         }
         [Fact]
-        public void HeroDamage_EquipOnlyReplacedWeapon_ShouldReturnCorrectDamage()
+        public void Hero_DamageWhenEquippedOnlyReplacedWeapon_ShouldReturnCorrectDamage()
         {
             var testMage = new MageHero("Keman");
             var hero = testMage;
@@ -303,7 +237,7 @@ namespace RPGHeroTest
             Assert.Equal(expectedDMG, hero.Damage());
         }
         [Fact]
-        public void HeroDamage_EquipArmorAndWeapon_ShouldReturnCorrectDamage()
+        public void Hero_DamageWhenEquippedArmorAndWeapon_ShouldReturnCorrectDamage()
         {
             var testMage = new MageHero("Keman");
             var hero = testMage;
@@ -318,7 +252,7 @@ namespace RPGHeroTest
 
         [Fact]
         //Fancy display creation
-        public void DisplayTest()
+        public void Hero_Display_ShouldPrintOutStatsAndEqupment()
         {
             MageHero testMage = new MageHero("Keman");
             Hero hero = testMage;
@@ -348,14 +282,14 @@ namespace RPGHeroTest
             displayString.AppendLine(hero.CreateCharacterDisplay("|--------------------------------------"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| Attack: {hero.attackDamage}"));
 
-            displayString.AppendLine(hero.CreateCharacterDisplay($"|             Stats"));
+            displayString.AppendLine(hero.CreateCharacterDisplay($"|                Stats"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| STR: {hero.heroAttributes.strength + tempAttributes.strength} (+ {tempAttributes.strength})"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| DEX: {hero.heroAttributes.dexterity + tempAttributes.dexterity} (+ {tempAttributes.dexterity})"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| INT: {hero.heroAttributes.intelligence + tempAttributes.intelligence} (+ {tempAttributes.intelligence})"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"|                                "));
 
             displayString.AppendLine(hero.CreateCharacterDisplay($"|^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ "));
-            displayString.AppendLine(hero.CreateCharacterDisplay($"|           Equipment            "));
+            displayString.AppendLine(hero.CreateCharacterDisplay($"|              Equipment"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| Weapon: {showItems[0]}"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| Head: {showItems[1]}"));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| Body: {showItems[2]}"));
