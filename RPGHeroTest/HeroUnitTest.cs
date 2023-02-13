@@ -10,50 +10,6 @@ namespace RPGHeroTest
 {
     public class HeroUnitTest
     {
-        //Hero Creation
-        [Fact]
-        public void Hero_NameAfterCreation_ShouldReturnName()
-        {
-            MageHero mage = new MageHero("Wizard of Oz");
-            Hero hero = mage;
-            Assert.Equal("Wizard of Oz", hero.Name);
-        }
-        [Fact]
-        public void HeroAssign_ShouldReturnClass()
-        {
-            MageHero mage = new MageHero("Wizard of Oz");
-            Hero hero = mage;
-            Assert.Equal("Mage", hero.heroClass);
-        }
-        [Fact]
-        public void Hero_LevelWhenCreated_ShouldReturnLevelOne()
-        {
-            MageHero mage = new MageHero("Wizard of Oz");
-            Hero hero = mage;
-            Assert.Equal(1, hero.Level);
-        }
-        [Fact]
-        public void Hero_NoItemsWhenCreated_ShouldHaveNoEquipment()
-        {
-            MageHero mage = new MageHero("Wizard of Oz");
-            Hero hero = mage;
-            Assert.Empty(hero.equipments);
-        }
-
-        //Hero Level Up
-        [Fact]
-        public void Hero_LevelUp_ShouldBeLevelTwoWithCorrectStats()
-        {
-            MageHero mage = new MageHero("Wizard of Oz");
-            Hero hero = mage;
-            hero.LevelUp();
-            HeroAttributes expectedStats = new HeroAttributes(2, 2, 13);
-            Assert.True(hero.Level == 2 &&
-                expectedStats.strength == hero.heroAttributes.strength &&
-                expectedStats.dexterity == hero.heroAttributes.dexterity &&
-                expectedStats.intelligence == hero.heroAttributes.intelligence);
-        }
-
         //Hero equip
         [Fact]
         public void Hero_EquipValidWeapon_ShouldBeHoldingWeaponInsideHero()

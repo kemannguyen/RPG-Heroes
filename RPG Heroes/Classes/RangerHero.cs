@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace RPG_Heroes.Classes
 {
-    internal class RangerHero:Hero
+    public class RangerHero:Hero
     {
         public RangerHero(string name) : base(name)
         {

@@ -27,10 +27,9 @@ heroes.Add(legolas);
 heroes.Add(mukmuk);
 heroes.Add(thief);
 
-
-foreach(Hero hero in heroes)
+foreach (Hero hero in heroes)
 {
-    if(hero.heroClass == "Mage")
+    if (hero.heroClass == "Mage")
     {
         hero.Equip(silkyRobe);
         hero.Equip(ragRobe);
