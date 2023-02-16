@@ -10,10 +10,13 @@ namespace RPGHeroTest
 {
     public class HeroUnitTest
     {
+
         //DisplayLine
         [Fact]
         public void Hero_DisplayLine_ShouldReturnStringWithCorrectEndLenghtAndClosingBox()
         {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
             var mage = new MageHero("testman");
             string expectedString = "|                                      |";
             Assert.Equal(expectedString, mage.CreateCharacterDisplay("|"));
