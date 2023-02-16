@@ -1,7 +1,9 @@
-﻿using RPG_Heroes.Items;
+﻿using RPG_Heroes.CustomExceptions;
+using RPG_Heroes.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,99 +11,57 @@ namespace RPG_Heroes
 {
     public abstract class Hero
     {
-        public string heroClass { get; protected set; }
+        public string heroClass { get; protected set; } = "No Class";
         public string Name { get; protected set; }
-        public int Level { get; protected set; }
-        protected int[] levelAttributes { get; set; }
-        public Dictionary<Slot, Item> equipments { get; protected set; }
-        public HeroAttributes heroAttributes { get; protected set; }
+        public int Level { get; protected set; } = 1;
+        public int[] levelAttributes { get; protected set; } = new int[] { 0, 0, 0 };
+        public Dictionary<Slot, Item> equipments { get; protected set; } = new Dictionary<Slot, Item>();
+        public HeroAttributes heroAttributes { get; protected set; } = new HeroAttributes(1, 1, 1);
 
-        public WeaponType[] ValidWeaponsType { get; protected set; }
-        public ArmorType[] ValidArmorType { get; protected set; }
+        public WeaponType[] ValidWeaponsType { get; protected set; } = new WeaponType[0];
+        public ArmorType[] ValidArmorType { get; protected set; } = new ArmorType[0]; 
 
-        public double attackDamage { get; protected set; }
+        public double attackDamage { get; protected set; } = 1;
 
         public Hero(string name)
         {
             Name = name;
-            Level = 1;
-            attackDamage = 1;
-            //since we only have 4 Slot enums equipments dictionary can only hold 4 items
-            equipments = new Dictionary<Slot, Item>();
         }
 
         //functional methods
         public abstract void LevelUp();
         public void Equip(Item equipment)
         {
-            //try
-            //{
-                //items hold a user verification
-                if (equipment.Equipped(this))
+            //items hold a user verification
+            if (equipment.Equipped(this))
+            {
+                if (equipments.ContainsKey(equipment.slot))
                 {
-                    PutEquipmentIntoInventory(equipment);
+                    Console.WriteLine($"  *replaced |{equipments[equipment.slot].ItemName}| with |{equipment.ItemName}|");
+                    equipments[equipment.slot] = equipment;
                 }
-            //}
-            //catch(InvalidWeaponException e) 
-            //{
-            //    Console.WriteLine(e.Message);
-            //    Console.ResetColor();
-            //}
-            //catch(InvalidArmorException e)
-            //{
-            //    Console.WriteLine(e.Message);
-            //    Console.ResetColor();
-            //}
-        }
-
-        //equip items depending on their slot
-        protected void PutEquipmentIntoInventory(Item item)
-        {
-            //0: Weap, 1: Head, 2: Body, 3: Legs
-            if (item.slot == Slot.Weapon)
-            {
-                InsertItem(Slot.Weapon, item);
-            }
-            else if (item.slot == Slot.Head)
-            {
-                InsertItem(Slot.Head, item);
-            }
-            else if (item.slot == Slot.Body)
-            {
-                InsertItem(Slot.Body, item);
-            }
-            else
-            {
-                InsertItem(Slot.Legs, item);
+                else
+                {
+                    Console.WriteLine($"*{Name} equipped ¨{equipment.ItemName}¨");
+                    equipments[equipment.slot] = equipment;
+                }
             }
         }
 
-        //equip the items and show text based on if its replacing an old item or not
-        private void InsertItem(Slot itemSlot, Item item)
-        {
-            if (equipments.ContainsKey(itemSlot))
-            {
-                Console.WriteLine($"  *replaced |{equipments[itemSlot].ItemName}| with |{item.ItemName}|");
-                equipments[itemSlot] = item;
-            }
-            else
-            {
-
-                Console.WriteLine($"*{Name} equipped ¨{item.ItemName}¨");
-                equipments[itemSlot] = item;
-            }
-        }
         public abstract double Damage();
+        protected abstract string DamageString();
 
-        //use item stats do calculate the new stats in tempAttributes and attackDmg
+        //Calculates the extra stats from items apart from the heroes own stats so that 
+        //we later can show how much stats we gain from the items at the display
         public HeroAttributes TotalAttributes()
         {
             var tempAttributes = new HeroAttributes(0, 0, 0);
-            double[] tempStats = new double[3];
+            double[] tempStats = new double[3] {0,0,0};
             foreach (var (slot, item) in equipments)
             {
                 if (item != null)
                 {
+
                     double[] itemStats = item.returnItemStats();
                     if (slot != Slot.Weapon)
                     {
@@ -125,12 +85,18 @@ namespace RPG_Heroes
             var tempAttributes = TotalAttributes();
             string[] showItems = new string[4];
             Slot[] slots = new Slot[] { Slot.Weapon, Slot.Head, Slot.Body, Slot.Legs };
-
+            string weapontype = "";
             //saves the equipment name into the right display string
             for (int i = 0; i < showItems.Length; i++)
             {
                 if (equipments.ContainsKey(slots[i]))
                 {
+                    if (i == 0)
+                    {
+                        var tempWeapon = (Weapon)equipments[slots[i]];
+                        weapontype = "("+tempWeapon.weaponType.ToString()+")";
+                    }
+                    //need to cover this branch
                     showItems[i] = equipments[slots[i]].ItemName;
                 }
                 if (showItems[i] == null)
@@ -146,7 +112,7 @@ namespace RPG_Heroes
             displayString.AppendLine(CreateCharacterDisplay($"| Class: {heroClass}"));
             displayString.AppendLine(CreateCharacterDisplay($"| Level: {Level}"));
             displayString.AppendLine(CreateCharacterDisplay("|--------------------------------------"));
-            displayString.AppendLine(CreateCharacterDisplay($"| Attack: {attackDamage}"));
+            displayString.AppendLine(CreateCharacterDisplay($"| Attack: {attackDamage} {weapontype}"));
 
             displayString.AppendLine(CreateCharacterDisplay($"|                Stats"));
             displayString.AppendLine(CreateCharacterDisplay($"| STR: {heroAttributes.strength + tempAttributes.strength} (+ {tempAttributes.strength})"));
@@ -161,11 +127,11 @@ namespace RPG_Heroes
             displayString.AppendLine(CreateCharacterDisplay($"| Body: {showItems[2]}"));
             displayString.AppendLine(CreateCharacterDisplay($"| Legs: {showItems[3]}"));
             displayString.AppendLine("----------------------------------------");
-
+            displayString.Append(DamageString());
             Console.WriteLine(displayString);
 
             return displayString.ToString();
-            
+
         }
 
         // closes the box correctly
@@ -189,7 +155,6 @@ namespace RPG_Heroes
                 {
                     resultString.Append("|");
                 }
-
             }
 
             return resultString.ToString();

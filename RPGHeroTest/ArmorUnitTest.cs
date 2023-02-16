@@ -1,5 +1,7 @@
 ﻿using RPG_Heroes.Items;
 using RPG_Heroes;
+using RPG_Heroes.CustomExceptions;
+using RPG_Heroes.Classes;
 
 namespace RPGHeroTest
 {
@@ -37,6 +39,14 @@ namespace RPGHeroTest
             var expectedStats = new double[] { 1, 1, 1 };
             var actualStats = new double[] { plate.returnItemStats()[0], plate.returnItemStats()[1], plate.returnItemStats()[2] };
             Assert.Equal(expectedStats, actualStats);
+        }
+        [Fact]
+        public void Armor_EquipArmorInWeaponSlot_ShouldReturnError()
+        {
+            var mage = new MageHero("bilbo");
+            Armor plate = new Armor("plate", 1, Slot.Weapon, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            var ex = Assert.Throws<InvalidArmorException>(() => mage.Equip(plate));
+            Assert.Equal(ex.Message, $"InvalidWeaponException: {mage.Name} Couldn't equip |{plate.ItemName}| Error: can't equip armor in Weapon Slot");
         }
     }
 }

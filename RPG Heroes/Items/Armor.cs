@@ -23,6 +23,11 @@ namespace RPG_Heroes.Items
         public override bool Equipped(Hero heroEquipping)
         {
             bool success = false;
+            if (slot == Slot.Weapon)
+            {
+                throw new InvalidArmorException($"InvalidWeaponException: {heroEquipping.Name} Couldn't equip |{ItemName}| Error: can't equip armor in Weapon Slot");
+            }
+
             for (int i = 0; i < heroEquipping.ValidArmorType.Length; i++)
             {
                 if (armorType == heroEquipping.ValidArmorType[i])
@@ -38,7 +43,7 @@ namespace RPG_Heroes.Items
             if (RequiredLevel > heroEquipping.Level)
             {
                 //Console.ForegroundColor = ConsoleColor.DarkRed;
-                throw new InvalidArmorException($"InvalidArmorException: {heroEquipping.Name} Couldn't equip |{ItemName}| Error: wrong type");
+                throw new InvalidArmorException($"InvalidArmorException: {heroEquipping.Name} Couldn't equip |{ItemName}| Error: too low level");
                 
             }
             return success;
@@ -47,7 +52,7 @@ namespace RPG_Heroes.Items
         //return the items stats
         public override double[] returnItemStats()
         {
-            var itemStat = new double[] { armorAttributes.strength, armorAttributes.dexterity, armorAttributes.intelligence };
+            var itemStat = new double[3] { armorAttributes.strength, armorAttributes.dexterity, armorAttributes.intelligence };
             return itemStat;
         }
     }

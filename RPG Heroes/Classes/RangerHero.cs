@@ -41,5 +41,19 @@ namespace RPG_Heroes.Classes
             Console.ResetColor();
             return totalAttackDealt;
         }
+        protected override string DamageString()
+        {
+            var tempAttributes = TotalAttributes();
+
+            double totalAttackDealt = (attackDamage * (1 + (heroAttributes.dexterity + tempAttributes.dexterity) / 100));
+
+            StringBuilder dmgString = new StringBuilder();
+            dmgString.Append(totalAttackDealt + " -> ");
+            totalAttackDealt = Math.Round(totalAttackDealt);
+            dmgString.AppendLine(totalAttackDealt.ToString());
+            dmgString.Append($"*{Name} deals {totalAttackDealt} ");
+            dmgString.AppendLine("piercing damage!\n");
+            return dmgString.ToString();
+        }
     }
 }

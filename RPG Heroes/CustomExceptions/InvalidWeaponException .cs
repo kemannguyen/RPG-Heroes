@@ -8,15 +8,7 @@ namespace RPG_Heroes.CustomExceptions
 {
     public class InvalidWeaponException : Exception
     {
-        public InvalidWeaponException()
-        {
-        }
-
         public InvalidWeaponException(string message) : base(message)
-        {
-        }
-
-        public InvalidWeaponException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }
