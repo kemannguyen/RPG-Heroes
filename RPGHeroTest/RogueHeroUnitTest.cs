@@ -271,7 +271,7 @@ namespace RPGHeroTest
             displayString.AppendLine(hero.CreateCharacterDisplay($"| Body: "));
             displayString.AppendLine(hero.CreateCharacterDisplay($"| Legs: "));
             displayString.AppendLine("----------------------------------------");
-            displayString.AppendLine("1,06 -> 1");
+            displayString.AppendLine("1.06 -> 1");
             displayString.AppendLine("*Keman deals 1 slash damage!\n");
             string expectedString = displayString.ToString();
             string heroDisplay = hero.Display();
